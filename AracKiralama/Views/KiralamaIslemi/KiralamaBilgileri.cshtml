@@ -1,0 +1,251 @@
+﻿@model KiralamaIslemi
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    #cardType {
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .card-img {
+        width: 50px;
+        margin-left: 10px;
+        display: none;
+    }
+
+    #expiryError {
+        color: red;
+        display: none;
+    }
+</style>
+<div class="title1">
+    <h4>Kiralama Bilgileri</h4>
+    <h2 class="title-inner1">Onay Sayfası</h2>
+    <form method="post" asp-controller="KiralamaIslemi" asp-action="KiralamaSon">
+        @Html.AntiForgeryToken()
+        @ViewBag.Bilgilendirme1 <br />
+        @ViewBag.Bilgilendirme2 <br />
+        @ViewBag.Bilgilendirme3 <br />
+        @ViewBag.Bilgilendirme4 <br />
+        @ViewBag.Bilgilendirme5 <br />
+        @ViewBag.Bilgilendirme6
+        <input type="hidden" name="KiralamaBaslangicTarihi" value="@Model.KiralamaBaslangicTarihi.ToShortDateString()" />
+        <input type="hidden" name="KiralamaBaslangicSaati" value="@Model.KiralamaBaslangicSaati" />
+        <input type="hidden" name="KiralamaBitisTarihi" value="@Model.KiralamaBitisTarihi.ToShortDateString()" />
+        <input type="hidden" name="KiralamaBitisSaati" value="@Model.KiralamaBitisSaati" />
+        <input type="hidden" name="MusteriId" value="@Model.MusteriId" />
+        <input type="hidden" name="AracId" value="@Model.AracId" />
+        <input type="hidden" name="SubeId" value="@Model.SubeId" />
+        <input type="hidden" name="SehirId" value="@Model.SehirId" />
+        <input type="hidden" name="KiralananGunSayisi" value="@Model.KiralananGunSayisi" />
+        <input type="hidden" name="KiralamaBedeli" value="@Model.KiralamaBedeli" /><br />
+        <!--section start-->
+        <h2 class="title-inner1 mt-4">Ödeme Bilgileri</h2>
+        <div class="container form-container mt-1">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 theme-form">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="name">Kart Numarası</label>
+                            <input type="text" class="form-control" id="cardNumber" name="KartNumarasi" placeholder="1234 **** **** 6789" required>
+                            <img id="visaImg" class="card-img" src="~/cardImg/visa.jpg" alt="Visa Card">
+                            <img id="masterCardImg" class="card-img" src="~/cardImg/mastercard.png" alt="MasterCard">
+                            <img id="troyImg" class="card-img" src="~/cardImg/troy.png" alt="Troy Card">
+                        </div>
+                    </div>
+                    <div class="form-row row">
+                        <div class="col-md-3 mb-3">
+                            <label for="last-name">Son Kullanma Tarihi</label>
+                            <input type="text" class="form-control" id="skt" name="skTarihi" placeholder="01/30" required>
+                            <span id="expiryError">Geçersiz Kart tarihi</span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="review">CVV</label>
+                            <input type="number" class="form-control" id="cvv" name="guvenlikKodu" placeholder="CVV" required>
+                        </div>
+                        <div class="col-md-6 mb-">
+                            <label for="email">Ad Soyad</label>
+                            <input type="text" class="form-control" id="nameSurname" name="adSoyad" placeholder="Ad Soyad" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-solid btn-primary" type="submit">Ödemeyi Tamamla</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 16) value = value.slice(0, 16);
+        e.target.value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        const firstDigit = value[0];
+        const firstFourDigits = value.slice(0, 4);
+        let cardType = '';
+        document.getElementById('visaImg').style.display = 'none';
+        document.getElementById('masterCardImg').style.display = 'none';
+        document.getElementById('troyImg').style.display = 'none';
+        if (firstDigit === '4') {
+            cardType = 'Visa';
+            document.getElementById('visaImg').style.display = 'inline';
+        } else if (firstDigit === '5') {
+            cardType = 'MasterCard';
+            document.getElementById('masterCardImg').style.display = 'inline';
+        } else if (firstFourDigits === '9792') {
+            cardType = 'Troy';
+            document.getElementById('troyImg').style.display = 'inline';
+        } else {
+            cardType = 'Bilinmeyen Kart Türü';
+        }
+        document.getElementById('cardType').textContent = cardType;
+    });
+
+    document.getElementById('skt').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 4) value = value.slice(0, 4);
+        if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
+        e.target.value = value;
+
+        checkExpiryDate(value);
+    });
+
+    function checkExpiryDate(value) {
+        const expiryError = document.getElementById('expiryError');
+        const today = new Date();
+        const [month, year] = value.split('/');
+        if (month && year) {
+            const expiryDate = new Date(`20${year}`, month);
+            if (expiryDate < today) {
+                expiryError.style.display = 'inline';
+            } else {
+                expiryError.style.display = 'none';
+            }
+        } else {
+            expiryError.style.display = 'none';
+        }
+    }
+
+    document.getElementById('cvv').addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 3) value = value.slice(0, 3);
+        e.target.value = value;
+    });
+
+    document.getElementById('nameSurname').addEventListener('input', function (e) {
+        const turkishUppercaseMap = {
+            'i': 'İ', 'ş': 'Ş', 'ğ': 'Ğ', 'ü': 'Ü', 'ö': 'Ö', 'ç': 'Ç',
+            'ı': 'I', 'İ': 'I', 'I': 'I', 'Ş': 'Ş', 'Ğ': 'Ğ', 'Ü': 'Ü', 'Ö': 'Ö', 'Ç': 'Ç'
+        };
+        const toTurkishUppercase = char => turkishUppercaseMap[char] || char.toUpperCase();
+        e.target.value = e.target.value.split(' ').map(word => word[0] ? toTurkishUppercase(word[0]) + word.slice(1).toLowerCase() : '').join(' ');
+    });
+</script>
+@*@model KiralamaIslemi
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+</style>
+ <div class="title1">
+    <h4>Kiralama Bilgileri</h4>
+    <h2 class="title-inner1">Onay Sayfası</h2>
+    <form method="post" asp-controller="KiralamaIslemi" asp-action="KiralamaSon">
+        @Html.AntiForgeryToken()
+        @ViewBag.Bilgilendirme1 <br />
+        @ViewBag.Bilgilendirme2 <br />
+        @ViewBag.Bilgilendirme3 <br />
+        @ViewBag.Bilgilendirme4 <br />
+        @ViewBag.Bilgilendirme5 <br />
+        @ViewBag.Bilgilendirme6
+        <input type="hidden" name="KiralamaBaslangicTarihi" value="@Model.KiralamaBaslangicTarihi.ToShortDateString()" />
+        <input type="hidden" name="KiralamaBaslangicSaati" value="@Model.KiralamaBaslangicSaati" />
+        <input type="hidden" name="KiralamaBitisTarihi" value="@Model.KiralamaBitisTarihi.ToShortDateString()" />
+        <input type="hidden" name="KiralamaBitisSaati" value="@Model.KiralamaBitisSaati" />
+        <input type="hidden" name="MusteriId" value="@Model.MusteriId" />
+        <input type="hidden" name="AracId" value="@Model.AracId" />
+        <input type="hidden" name="SubeId" value="@Model.SubeId" />
+        <input type="hidden" name="SehirId" value="@Model.SehirId" />
+        <input type="hidden" name="KiralananGunSayisi" value="@Model.KiralananGunSayisi" />
+        <input type="hidden" name="KiralamaBedeli" value="@Model.KiralamaBedeli" /><br />
+        <!--section start-->
+        <h2 class="title-inner1 mt-4">Ödeme Bilgileri</h2>
+            <div class="container form-container mt-1">
+                <div class="row justify-content-center">
+                <div class="col-sm-12 theme-form">
+                            <div class="form-row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="name">Kart Numarası</label>
+                                    <input type="text" class="form-control" id="cardNumber" name="KartNumarasi" placeholder="1234 **** **** 6789" required>
+                                </div>
+                            </div>
+                            <div class="form-row row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="last-name">Son Kullanma Tarihi</label>
+                                    <input type="text" class="form-control" id="skt" name="skTarihi" placeholder="01/30" required>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="review">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" name="guvenlikKodu" placeholder="CVV" required>
+                                </div>
+                                <div class="col-md-6 mb-">
+                                    <label for="email">Ad Soyad</label>
+                                    <input type="text" class="form-control" id="nameSurname" name="adSoyad" placeholder="Ad Soyad" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 text-center">
+                                    <button class="btn btn-solid btn-primary" type="submit">Ödemeyi Tamamla</button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div> *@
+@* <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form class="theme-form">
+                            <div class="form-row row">
+                                <div class="col-md-6 ">
+                                    <label for="name">Kart Numarası</label>
+                                    <input type="text" class="form-control" id="name" placeholder="1234 **** **** 6789"
+                                           required="">
+                                </div>
+                            </div>
+                            <div class="form-row row">
+                                <div class="col-md-2 mt-3">
+                                    <label for="email">Son Kullanma Tarihi</label>
+                                    <input type="text" class="form-control" id="last-name" placeholder="01/30" required="">
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <label for="review">CVV</label>
+                                    <input type="text" class="form-control" id="review" placeholder="CVV"
+                                           required="">
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <label for="email">Ad Soyad</label>
+                                    <input type="text" class="form-control" id="email" placeholder="Ad Soyad" required="">
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <button class="btn btn-solid" type="submit">Ödemeyi Tamamla</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> *@
+
+<!--Section ends-->
+@*     </form>
+</div> *@
+@*
+await _context.KiralamaIslemleri.AddAsync(KiralamaSon);
+                await _context.SaveChangesAsync(); *@

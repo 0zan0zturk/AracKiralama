@@ -1,0 +1,26 @@
+﻿  
+<!-- section start -->
+<section class="p-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="error-section">
+                    <h1>404</h1>
+                    <h2>Kaybolmuşa benziyorsunuz :(</h2>
+                    <h3>3 saniye sonra yönlendirileceksiniz...</h3>
+                    <h4>Eğer yönlendirilmezseniz Ana Sayfa butonuna tıklayınız.</h4>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-solid">Ana Sayfa</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    // Sayfa yüklenirken otomatik yönlendirme
+    window.onload = function () {
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Home")';
+        }, 3000); // 3 saniye sonra yönlendirir
+    };
+</script>
+<!-- Section ends -->

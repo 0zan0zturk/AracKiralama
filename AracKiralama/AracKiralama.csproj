@@ -1,0 +1,180 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="wwwroot\assets\fonts\fontawesome-webfont.eot" />
+    <None Include="wwwroot\assets\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\assets\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\assets\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\assets\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\assets\fonts\FontAwesome.otf" />
+    <None Include="wwwroot\assets\fonts\slick.eot" />
+    <None Include="wwwroot\assets\fonts\slick.svg" />
+    <None Include="wwwroot\assets\fonts\slick.ttf" />
+    <None Include="wwwroot\assets\fonts\slick.woff" />
+    <None Include="wwwroot\assets\fonts\themify.eot" />
+    <None Include="wwwroot\assets\fonts\themify.svg" />
+    <None Include="wwwroot\assets\fonts\themify.ttf" />
+    <None Include="wwwroot\assets\fonts\themify.woff" />
+    <None Include="wwwroot\assets\js\360view.js" />
+    <None Include="wwwroot\assets\js\addtocart.js" />
+    <None Include="wwwroot\assets\js\ajax-custom.js" />
+    <None Include="wwwroot\assets\js\bootstrap-notify.min.js" />
+    <None Include="wwwroot\assets\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assets\js\chart\apex\apexcharts.js" />
+    <None Include="wwwroot\assets\js\chart\apex\custom-chart.js" />
+    <None Include="wwwroot\assets\js\clipboard\clipboard.min.js" />
+    <None Include="wwwroot\assets\js\color-setting.js" />
+    <None Include="wwwroot\assets\js\custom-card\custom-card.js" />
+    <None Include="wwwroot\assets\js\custom-slick-animated.js" />
+    <None Include="wwwroot\assets\js\date-picker.js" />
+    <None Include="wwwroot\assets\js\exit.js" />
+    <None Include="wwwroot\assets\js\feather.min.js" />
+    <None Include="wwwroot\assets\js\fly-cart.js" />
+    <None Include="wwwroot\assets\js\footer-reveal.min.js" />
+    <None Include="wwwroot\assets\js\home-effect-1.js" />
+    <None Include="wwwroot\assets\js\home-effect.js" />
+    <None Include="wwwroot\assets\js\isotope.min.js" />
+    <None Include="wwwroot\assets\js\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\assets\js\jquery-ui.min.js" />
+    <None Include="wwwroot\assets\js\jquery.elevatezoom.js" />
+    <None Include="wwwroot\assets\js\jquery.exitintent.js" />
+    <None Include="wwwroot\assets\js\jquery.magnific-popup.js" />
+    <None Include="wwwroot\assets\js\jquery.vide.min.js" />
+    <None Include="wwwroot\assets\js\landing-script.js" />
+    <None Include="wwwroot\assets\js\lazysizes.min.js" />
+    <None Include="wwwroot\assets\js\main.js" />
+    <None Include="wwwroot\assets\js\menu.js" />
+    <None Include="wwwroot\assets\js\parallax-effect.js" />
+    <None Include="wwwroot\assets\js\price-range.js" />
+    <None Include="wwwroot\assets\js\prism\prism.min.js" />
+    <None Include="wwwroot\assets\js\script.js" />
+    <None Include="wwwroot\assets\js\slick-animation.min.js" />
+    <None Include="wwwroot\assets\js\slick.js" />
+    <None Include="wwwroot\assets\js\snow.js" />
+    <None Include="wwwroot\assets\js\sticky-cart-bottom.js" />
+    <None Include="wwwroot\assets\js\sticky-kit.js" />
+    <None Include="wwwroot\assets\js\sticky-menu.js" />
+    <None Include="wwwroot\assets\js\theme-setting.js" />
+    <None Include="wwwroot\assets\js\timer.js" />
+    <None Include="wwwroot\assets\js\timer1.js" />
+    <None Include="wwwroot\assets\js\typeahead.bundle.min.js" />
+    <None Include="wwwroot\assets\js\typeahead.jquery.min.js" />
+    <None Include="wwwroot\assets\js\wow.min.js" />
+    <None Include="wwwroot\assets\js\zoom-gallery.js" />
+    <None Include="wwwroot\assets\svg\cookie.svg" />
+    <None Include="wwwroot\assets\svg\feature\battery.svg" />
+    <None Include="wwwroot\assets\svg\feature\camera.svg" />
+    <None Include="wwwroot\assets\svg\feature\cardiogram.svg" />
+    <None Include="wwwroot\assets\svg\feature\chat.svg" />
+    <None Include="wwwroot\assets\svg\feature\moon.svg" />
+    <None Include="wwwroot\assets\svg\feature\music-note.svg" />
+    <None Include="wwwroot\assets\svg\feature\placeholder.svg" />
+    <None Include="wwwroot\assets\svg\feature\pulse.svg" />
+    <None Include="wwwroot\assets\svg\feature\search.svg" />
+    <None Include="wwwroot\assets\svg\feature\sport-mode.svg" />
+    <None Include="wwwroot\assets\svg\feature\touch.svg" />
+    <None Include="wwwroot\assets\svg\feature\water-drop.svg" />
+    <None Include="wwwroot\assets\svg\furniture\bed.svg" />
+    <None Include="wwwroot\assets\svg\furniture\hanger.svg" />
+    <None Include="wwwroot\assets\svg\furniture\kitchen.svg" />
+    <None Include="wwwroot\assets\svg\furniture\office.svg" />
+    <None Include="wwwroot\assets\svg\furniture\sofa.svg" />
+    <None Include="wwwroot\assets\svg\furniture\washbasin.svg" />
+    <None Include="wwwroot\assets\svg\grocery\beverages.svg" />
+    <None Include="wwwroot\assets\svg\grocery\bread.svg" />
+    <None Include="wwwroot\assets\svg\grocery\cockles.svg" />
+    <None Include="wwwroot\assets\svg\grocery\eggs.svg" />
+    <None Include="wwwroot\assets\svg\grocery\grain.svg" />
+    <None Include="wwwroot\assets\svg\grocery\healthy-food.svg" />
+    <None Include="wwwroot\assets\svg\grocery\skin-care.svg" />
+    <None Include="wwwroot\assets\svg\grocery\snack.svg" />
+    <None Include="wwwroot\assets\svg\grocery\vegetable.svg" />
+    <None Include="wwwroot\assets\svg\icons.svg" />
+    <None Include="wwwroot\assets\svg\medical\cream.svg" />
+    <None Include="wwwroot\assets\svg\medical\diet.svg" />
+    <None Include="wwwroot\assets\svg\medical\drugs.svg" />
+    <None Include="wwwroot\assets\svg\medical\eye-drops.svg" />
+    <None Include="wwwroot\assets\svg\medical\holding-hands.svg" />
+    <None Include="wwwroot\assets\svg\medical\mask.svg" />
+    <None Include="wwwroot\assets\svg\medical\sugar-blood-level.svg" />
+    <None Include="wwwroot\assets\svg\pin.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\biscuit.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\breakfast.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\cup.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\drink.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\frozen.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\grocery.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\meats.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\milk.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\pet.svg" />
+    <None Include="wwwroot\assets\svg\vegetables\vegetable.svg" />
+    <None Include="wwwroot\assets\video\video.gif" />
+    <None Include="wwwroot\assets\video\video.jpeg" />
+    <None Include="wwwroot\assets\video\video.jpg" />
+    <None Include="wwwroot\assets\video\video.mp4" />
+    <None Include="wwwroot\assets\video\video.png" />
+    <None Include="wwwroot\assets\webfonts\fa-brands-400.eot" />
+    <None Include="wwwroot\assets\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\assets\webfonts\fa-brands-400.ttf" />
+    <None Include="wwwroot\assets\webfonts\fa-brands-400.woff" />
+    <None Include="wwwroot\assets\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\assets\webfonts\fa-regular-400.eot" />
+    <None Include="wwwroot\assets\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\assets\webfonts\fa-regular-400.ttf" />
+    <None Include="wwwroot\assets\webfonts\fa-regular-400.woff" />
+    <None Include="wwwroot\assets\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\assets\webfonts\fa-solid-900.eot" />
+    <None Include="wwwroot\assets\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\assets\webfonts\fa-solid-900.ttf" />
+    <None Include="wwwroot\assets\webfonts\fa-solid-900.woff" />
+    <None Include="wwwroot\assets\webfonts\fa-solid-900.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire" Version="1.8.14" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.22.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\assetsAdmin\css\vendors\chartist.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\assetsAdmin\css\vendors\chartist.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\assetsAdmin\css\vendors\flag-icon.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\assetsAdmin\css\vendors\flag-icon.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\assetsAdmin\css\vendors\icofont.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\assetsAdmin\css\vendors\icofont.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,109 @@
+﻿@model IEnumerable<AracKiralama.Models.Musteri>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Müşteri Listesi</h1>
+
+<h4>@ViewBag.GuncelleDurum</h4>
+<div class="row">
+    <div class="col-md-2">
+        <p>
+            <a asp-action="Create" class="btn btn-outline me-3">Yeni Müşteri</a>
+        </p>
+    </div>
+    <div class="col-md-3">
+        <form method="post" asp-action="List" asp-controller="Musteri">
+            @Html.AntiForgeryToken()
+            <select name="musteriFiltre" onchange="this.form.submit()" class="form-select">
+                @if (ViewBag.Filtre == "aktif")
+                {
+                    <option value="hepsi">Hepsi</option>
+                    <option value="aktif" selected>Aktif Müşteriler</option>
+                    <option value="silinmis">Silinmiş Müşteriler</option>
+                }
+                else if (ViewBag.Filtre == "silinmis")
+                {
+                    <option value="hepsi">Hepsi</option>
+                    <option value="aktif">Aktif Müşteriler</option>
+                    <option value="silinmis" selected>Silinmiş Müşteriler</option>
+                }
+                else
+                {
+                    <option value="hepsi" selected>Hepsi</option>
+                    <option value="aktif">Aktif Müşteriler</option>
+                    <option value="silinmis">Silinmiş Müşteriler</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MusteriTc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MusteriAd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MusteriSoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EPosta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MusteriDogTar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MusteriAdres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusteriTc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusteriAd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusteriSoyad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EPosta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusteriDogTar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusteriAdres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracId)
+                </td>
+
+                <td>
+                    <a asp-action="Duzenle" asp-route-id="@item.Id" class="btn btn-outline me-3">Düzenle</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-solid black-btn me-3">Detay</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-solid btn-sm btn-xs me-3">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

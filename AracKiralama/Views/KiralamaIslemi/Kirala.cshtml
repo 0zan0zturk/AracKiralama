@@ -1,0 +1,58 @@
+﻿@model List<Arac>
+<h3>Araç Listesi</h3>
+@ViewBag.AracSayisi
+<section class="section-b-space ratio_asos">
+    <div>
+        <div class="row mordern-box-margin">
+           
+            
+            @foreach (var aracBilgi in Model)
+            {   
+                <div class="col-lg-4 col-6">
+                    <div class="mordern-box">
+
+                        <div class="absolute-img">
+                            <img src="~/aracImg/@aracBilgi.AracFotograf" class="img-fluid" alt="">
+                        </div>
+                        <div class="mordern-content">
+                            <a href="product-page(no-sidebar).html">
+                                <h6>@aracBilgi.AracMarka - @aracBilgi.AracModel</h6>
+                            </a>
+                            <p>
+                                <b>Yakıt:</b> @aracBilgi.AracYakit <br />
+                                <b>Şanzıman:</b> @aracBilgi.AracSanziman<br />
+                                <b>Motor Hacmi:</b> @aracBilgi.MotorHacmi cm<sup>3</sup><br />
+                                @if (aracBilgi.AracYil != null)
+                                {
+                                    <b>Araç Üretim Yılı:</b> @(aracBilgi.AracYil.Substring(0, 4))
+
+                                }
+                            </p>
+                            <div class="mordern-bottom">
+                                <div class="left">
+                                    <h4>
+                                        <del>₺@(aracBilgi.GunlukFiyat * 1.44)</del><br />
+                                        Günlüğü ₺@aracBilgi.GunlukFiyat'den hemen <br /> <hr />
+                                        <b>@ViewBag.GunSayisi günlük fiyat ₺@(aracBilgi.GunlukFiyat * ViewBag.GunSayisi)</b>
+                                    </h4>
+
+                                </div>
+                                <form method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" value="@aracBilgi.Id"  name="AracId"/>
+                                    <input type="hidden" value="@ViewBag.KiralamaBilgi.SehirId" name="SehirId" />
+                                    <input type="hidden" value="@ViewBag.KiralamaBilgi.KiralamaBaslangicTarihi.ToShortDateString()" name="KiralamaBaslangicTarihi" />
+                                    <input type="hidden" value="@ViewBag.KiralamaBilgi.KiralamaBaslangicSaati" name="KiralamaBaslangicSaati" />
+                                    <input type="hidden" value="@ViewBag.KiralamaBilgi.KiralamaBitisTarihi.ToShortDateString()" name="KiralamaBitisTarihi" />
+                                    <input type="hidden" value="@ViewBag.KiralamaBilgi.KiralamaBitisSaati" name="KiralamaBitisSaati" />
+                                    <input type="hidden" value="@ViewBag.GunSayisi" name="KiralananGunSayisi" />
+                                    <div class="right"><button type="submit" asp-controller="KiralamaIslemi" asp-action="KiralamaBilgileri" class="btn btn-solid mx-3 ">Kirala</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

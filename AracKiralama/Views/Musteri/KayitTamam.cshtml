@@ -1,0 +1,11 @@
+﻿@ViewBag.kayitDurum <br /> 
+<button onclick="window.location.href='@Url.Action("Index", "Home")'">Giriş Sayfasına Git</button>
+
+<script>
+    // Sayfa yüklenirken otomatik yönlendirme
+    window.onload = function () {
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Home")';
+        }, 5000); // 3 saniye sonra yönlendirir
+    };
+</script>

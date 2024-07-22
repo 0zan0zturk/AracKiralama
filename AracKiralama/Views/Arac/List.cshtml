@@ -1,0 +1,119 @@
+﻿@model IEnumerable<AracKiralama.Models.Arac>
+
+@{
+    ViewData["Title"] = "Arac Listesi";
+}
+
+<h1>Araç Listesi</h1>
+@ViewBag.HataAracEkle
+<div class="row">
+    <div class="col-md-2">
+        <p>
+            <a asp-action="Create" class="btn btn-outline me-3">Yeni Araç Ekle</a>
+        </p>
+    </div>
+    <div class="col-md-3">
+        <form method="post" asp-action="List" asp-controller="Arac">
+            @Html.AntiForgeryToken()
+            <select name="aracFiltre" onchange="this.form.submit()" class="form-select">
+                <option value="0">Seçiniz</option>
+                <option value="hepsi">Hepsi</option>
+                <option value="musait">Kiralamaya Uygun Araçlar</option>
+                <option value="musaitDegil">Hasarlı vs Araçlar</option>
+                <option value="silinmis">Silinmiş Araçlar</option>
+            </select>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AracPlaka)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracMarka)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracModel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracYil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracYakit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracSanziman)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracMusait)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MusteriId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GunlukFiyat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AracFotograf)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr class="@(item.AracMusait==true?"table":"table-danger")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracPlaka)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracMarka)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracModel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracYil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracYakit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AracSanziman)
+                </td>
+                <td>
+                    @if (item.aracSil == false)
+                    {
+                        <img style="width:50px" src="~/MusaitPng/delete.png" />
+                    }
+                    else if (item.AracMusait == true)
+                    {
+                        <img style="width:50px" src="~/MusaitPng/musait.png" />
+                    }
+                    else if (item.AracMusait == false)
+                    {
+                        <img style="width:50px" src="~/MusaitPng/degil.png" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusteriId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GunlukFiyat)
+                </td>
+                <td>
+                    <img style="width:100px" src="~/aracImg/@item.AracFotograf" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline me-3">Düzenle</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-solid black-btn me-3">Detay</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-solid btn-sm btn-xs me-3">Sil</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

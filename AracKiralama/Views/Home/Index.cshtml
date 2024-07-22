@@ -1,0 +1,46 @@
+﻿@model Musteri
+<section class="login-page section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Giriş Yap</h3>
+                <div class="theme-card">
+                    <span class="text-info">@ViewBag.GirisYapin</span>
+                    <form class="theme-form" method="post" asp-controller="Musteri" asp-action="Giris">
+                        @Html.AntiForgeryToken()
+                        @*  <div class="form-group">
+                            <label for="email">E-Posta</label>
+                            <input type="text" class="form-control" id="email" placeholder="E-Posta" required="">
+                        </div> *@
+                        <div class="form-group">
+                            <label asp-for="EPosta" class="control-label">E-Posta</label>
+                            <input asp-for="EPosta" class="form-control" placeholder="E-Posta" />
+                            <span asp-validation-for="EPosta" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MusteriSifre" class="control-label">Şifre</label>
+                            <input asp-for="MusteriSifre" class="form-control" type="password" placeholder="Şifre" />
+                            <span asp-validation-for="MusteriSifre" class="text-danger"></span>
+                        </div>
+
+                        @* <div class="form-group">
+                            <label for="review">Şifre</label>
+                            <input type="password" class="form-control" id="review"
+                                   placeholder="Şifre" required="">
+                        </div> *@<button class="btn btn-solid">Giriş</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6 right-login">
+                <h3>Kayıt Ol</h3>
+                <div class="theme-card authentication-right">
+                    <h6 class="title-font">Hesap Oluştur</h6>
+                    <p>
+                        Kiralık araçlarımızı görüntüleyebilmek için lütfen hesap oluşturun. Hesabınız varsa lütfen giriş yapın.
+                    </p><a asp-controller="Musteri" asp-action="KayitOl"
+                           class="btn btn-solid">Hesap Oluştur</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

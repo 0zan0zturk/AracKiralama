@@ -1,0 +1,319 @@
+﻿<style>
+    .strength {
+        width: 100%;
+        height: 10px;
+        background-color: lightgray;
+    }
+
+    .strength-meter {
+        height: 100%;
+        transition: width 0.3s;
+    }
+
+    .match-message {
+        color: red;
+    }
+
+        .match-message.match {
+            color: green;
+        }
+
+    .requirements {
+        list-style: none;
+        padding: 0;
+    }
+
+        .requirements li {
+            margin-bottom: 5px;
+        }
+
+            .requirements li.valid {
+                color: green;
+            }
+
+            .requirements li::before {
+                content: "✗";
+                color: red;
+                margin-right: 10px;
+            }
+
+            .requirements li.valid::before {
+                content: "✔";
+            }
+</style>
+
+<form method="post" asp-action="SifreDegistir" asp-controller="Musteri">
+    @Html.AntiForgeryToken()
+<div class="col-md-12">
+    <label for="eskiSifre">Eski Şifre</label>
+    <input type="password" class="form-control" name="eskiSifre" id="old-password" placeholder="Eski Şifre" required="">
+</div>
+<div class="row">
+    <div class="col-md-6 mt-3">
+        <label for="yeniSifre">Yeni Şifre</label>
+        <input type="password" class="form-control" name="yeniSifre" id="new-password" placeholder="Yeni Şifre" required="">
+    </div>
+    <div class="col-md-6 mt-3">
+        <label for="review">Yeni Şifre Tekrar</label>
+        <input type="password" class="form-control" name="yeniSifreTekrar" id="confirm-password" placeholder="Yeni Şifre Tekrar"
+               required="">
+        
+    </div>
+</div>
+<div class="row">
+<div class="col-md-6">
+    <div class="strength">
+        <div id="strength-meter" class="strength-meter"></div>
+    </div>
+    <p id="strength-text"></p>
+    <ul class="requirements">
+        <li id="length-req">En az 8 karakter</li><br />
+        <li id="lowercase-req">En az bir küçük harf</li><br />
+        <li id="uppercase-req">En az bir büyük harf</li><br />
+        <li id="number-req">En az bir rakam</li><br />
+        <li id="special-req">En az bir özel karakter</li>
+    </ul>
+</div>
+    <div class="col-md-6"><p id="match-message" class="match-message "></p></div>
+</div>
+    <input class="btn btn-solid me-3" type="submit" value="Şifre Değiştir" />
+</form>
+
+<script>
+    const newPasswordInput = document.getElementById('new-password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const strengthMeter = document.getElementById('strength-meter');
+    const strengthText = document.getElementById('strength-text');
+    const matchMessage = document.getElementById('match-message');
+
+    const lengthReq = document.getElementById('length-req');
+    const lowercaseReq = document.getElementById('lowercase-req');
+    const uppercaseReq = document.getElementById('uppercase-req');
+    const numberReq = document.getElementById('number-req');
+    const specialReq = document.getElementById('special-req');
+
+    newPasswordInput.addEventListener('input', () => {
+        updateStrengthMeter();
+        checkPasswordRequirements();
+        checkPasswordsMatch();
+    });
+
+    confirmPasswordInput.addEventListener('input', checkPasswordsMatch);
+
+    function updateStrengthMeter() {
+        const weaknesses = calculatePasswordStrength(newPasswordInput.value);
+        let strength = 100;
+        strengthMeter.style.width = `${strength}%`;
+
+        weaknesses.forEach(weakness => {
+            if (weakness == null) return;
+            strength -= weakness.deduction;
+        });
+
+        strengthMeter.style.width = `${strength}%`;
+        updateStrengthText(strength);
+    }
+
+    function calculatePasswordStrength(password) {
+        const weaknesses = [];
+        weaknesses.push(lengthWeakness(password));
+        weaknesses.push(lowercaseWeakness(password));
+        weaknesses.push(uppercaseWeakness(password));
+        weaknesses.push(numberWeakness(password));
+        weaknesses.push(specialCharsWeakness(password));
+        return weaknesses;
+    }
+
+    function updateStrengthText(strength) {
+        if (strength > 80) {
+            strengthText.textContent = 'Güçlü';
+            strengthMeter.style.backgroundColor = 'green';
+        } else if (strength > 50) {
+            strengthText.textContent = 'Orta';
+            strengthMeter.style.backgroundColor = 'orange';
+        } else {
+            strengthText.textContent = 'Zayıf';
+            strengthMeter.style.backgroundColor = 'red';
+        }
+    }
+
+    function lengthWeakness(password) {
+        const length = password.length;
+        if (length < 8) {
+            return {
+                message: 'Şifre yeterince uzun değil',
+                deduction: 40
+            };
+        }
+    }
+
+    function lowercaseWeakness(password) {
+        return characterTypeWeakness(password, /[a-z]/g, 'Küçük harf eksik', 20);
+    }
+
+    function uppercaseWeakness(password) {
+        return characterTypeWeakness(password, /[A-Z]/g, 'Büyük harf eksik', 20);
+    }
+
+    function numberWeakness(password) {
+        return characterTypeWeakness(password, /[0-9]/g, 'Rakam eksik', 20);
+    }
+
+    function specialCharsWeakness(password) {
+        return characterTypeWeakness(password, /[^0-9a-zA-Z\s]/g, 'Özel karakter eksik', 20);
+    }
+
+    function characterTypeWeakness(password, regex, message, deduction) {
+        if (!regex.test(password)) {
+            return {
+                message: message,
+                deduction: deduction
+            };
+        }
+    }
+
+    function checkPasswordsMatch() {
+        if (newPasswordInput.value === confirmPasswordInput.value) {
+            matchMessage.textContent = 'Şifreler eşleşiyor';
+            matchMessage.classList.add('match');
+            matchMessage.classList.remove('mismatch');
+        } else {
+            matchMessage.textContent = 'Şifreler eşleşmiyor';
+            matchMessage.classList.add('mismatch');
+            matchMessage.classList.remove('match');
+        }
+    }
+
+    function checkPasswordRequirements() {
+        const password = newPasswordInput.value;
+        updateRequirementStatus(lengthReq, password.length >= 8);
+        updateRequirementStatus(lowercaseReq, /[a-z]/.test(password));
+        updateRequirementStatus(uppercaseReq, /[A-Z]/.test(password));
+        updateRequirementStatus(numberReq, /[0-9]/.test(password));
+        updateRequirementStatus(specialReq, /[^0-9a-zA-Z\s]/.test(password));
+    }
+
+    function updateRequirementStatus(element, isValid) {
+        if (isValid) {
+            element.classList.add('valid');
+        } else {
+            element.classList.remove('valid');
+        }
+    }
+</script>
+@* <section class="contact-page register-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>PERSONAL DETAIL</h3>
+                <form class="theme-form">
+                    <div class="form-row row">
+                        <div class="col-md-12">
+                            <label for="name">Eski Şifre</label>
+                            <input type="password" class="form-control" name="eskiSifre" placeholder="Eski Şifre"
+                                   required="">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="email">Yeni Şifre</label>
+                            <input type="password" class="form-control" name="yeniSifre" id="password" placeholder="Yeni Şifre" required="">
+                        </div>
+                        <div class="strength">
+                            <div id="strength-meter" class="strength-meter"></div>
+                        </div>
+                        <p id="strength-text"></p>
+                        <div class="col-md-6">
+                            <label for="review">Yeni Şifre Tekrar</label>
+                            <input type="password" class="form-control" name="yeniSifreTekrar" id="password" placeholder="Yeni Şifre Tekrar"
+                                   required="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    const passwordInput = document.getElementById('password');
+    const strengthMeter = document.getElementById('strength-meter');
+    const strengthText = document.getElementById('strength-text');
+
+    passwordInput.addEventListener('input', updateStrengthMeter);
+
+    function updateStrengthMeter() {
+        const weaknesses = calculatePasswordStrength(passwordInput.value);
+        let strength = 100;
+        strengthMeter.style.width = `${strength}%`;
+
+        weaknesses.forEach(weakness => {
+            if (weakness == null) return;
+            strength -= weakness.deduction;
+        });
+
+        strengthMeter.style.width = `${strength}%`;
+        updateStrengthText(strength);
+    }
+
+    function calculatePasswordStrength(password) {
+        const weaknesses = [];
+        weaknesses.push(lengthWeakness(password));
+        weaknesses.push(lowercaseWeakness(password));
+        weaknesses.push(uppercaseWeakness(password));
+        weaknesses.push(numberWeakness(password));
+        weaknesses.push(specialCharsWeakness(password));
+        return weaknesses;
+    }
+
+    function updateStrengthText(strength) {
+        if (strength > 80) {
+            strengthText.textContent = 'Güçlü';
+            strengthMeter.style.backgroundColor = 'green';
+        } else if (strength > 50) {
+            strengthText.textContent = 'Orta';
+            strengthMeter.style.backgroundColor = 'orange';
+        } else {
+            strengthText.textContent = 'Zayıf';
+            strengthMeter.style.backgroundColor = 'red';
+        }
+    }
+
+    function lengthWeakness(password) {
+        const length = password.length;
+        if (length < 5) {
+            return {
+                message: 'Şifre çok kısa',
+                deduction: 40
+            };
+        }
+        if (length < 8) {
+            return {
+                message: 'Şifre yeterince uzun değil',
+                deduction: 20
+            };
+        }
+    }
+
+    function lowercaseWeakness(password) {
+        return characterTypeWeakness(password, /[a-z]/g, 'Küçük harf eksik', 20);
+    }
+
+    function uppercaseWeakness(password) {
+        return characterTypeWeakness(password, /[A-Z]/g, 'Büyük harf eksik', 20);
+    }
+
+    function numberWeakness(password) {
+        return characterTypeWeakness(password, /[0-9]/g, 'Rakam eksik', 20);
+    }
+
+    function specialCharsWeakness(password) {
+        return characterTypeWeakness(password, /[^0-9a-zA-Z\s]/g, 'Özel karakter eksik', 20);
+    }
+
+    function characterTypeWeakness(password, regex, message, deduction) {
+        if (!regex.test(password)) {
+            return {
+                message: message,
+                deduction: deduction
+            };
+        }
+    }
+</script> *@

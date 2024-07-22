@@ -1,0 +1,113 @@
+﻿@model Musteri
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>profile</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Profilim</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb End -->
+<!-- personal deatail section start -->
+<section class="contact-page register-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Profil Bilgileri</h3>
+                @ViewBag.Ayni
+                <form class="theme-form" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                   
+                    @if (Context.Session.GetInt32("Id") == 1)
+                    {
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <label class="form-check-label" for="AracMusait">Müşteri Hesap Durumu</label>
+                           
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" class="form-check-input" asp-for="MusteriAktif" id="musteriAktifCheck">
+                                    <span id="aktifMesaj" class="ms-2"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-img">
+                                    <img class="img-fluid" src="~/assets/images/pps/@Model.ProfilFotografi" alt="Profil Fotoğrafı" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-row row">
+                        <div class="col-md-6">
+                            <label asp-for="MusteriAd">Ad</label>
+                            <input type="text" class="form-control" asp-for="MusteriAd" placeholder="Ad" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="MusteriSoyad">Soyad</label>
+                            <input type="text" class="form-control" asp-for="MusteriSoyad" placeholder="Soyad" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Telefon">Telefon</label>
+                            <input type="number" class="form-control" asp-for="Telefon" placeholder="Telefon"
+                                   required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="EPosta">E-Posta</label>
+                            <input type="email" class="form-control" asp-for="EPosta" placeholder="Email" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="MusteriDogTar">Doğum Tarihi</label>
+                            <input type="date" class="form-control" asp-for="MusteriDogTar" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PP">Profil Fotoğrafı</label>
+                            <input type="file" class="form-control" asp-for="PP">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="MusteriAdres">Adres</label>
+                            <textarea class="form-control mb-0" placeholder="Adres"
+                                      asp-for="MusteriAdres" rows="6"></textarea>
+                        </div>
+                        <div class="col-md-12 mt-3 text-center">
+                            <button type="submit" class="btn btn-solid" style="width:auto;" asp-action="Duzenle" asp-controller="Musteri">Güncelle</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Section ends -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var musteriAktifCheck = document.getElementById('musteriAktifCheck');
+        var aktifMesaj = document.getElementById('aktifMesaj');
+
+        function updateAktifMesaj() {
+            if (musteriAktifCheck.checked) {
+                aktifMesaj.textContent = 'Müşteri aktif!';
+                aktifMesaj.style.color = 'green';
+            } else {
+                aktifMesaj.textContent = 'Müşteri pasif!';
+                aktifMesaj.style.color = 'red';
+            }
+        }
+
+        musteriAktifCheck.addEventListener('change', updateAktifMesaj);
+
+        // Sayfa yüklendiğinde durumu güncelle
+        updateAktifMesaj();
+    });
+</script>

@@ -1,0 +1,136 @@
+﻿@model KiralamaIslemi;
+<section class="theme-invoice-4 section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 m-auto">
+                <div class="invoice-wrapper">
+                    <div class="invoice-header">
+                        <img src="../assets/images/invoice/bg3.jpg" class="background-invoice">
+                        <img src="../assets/images/icon/logo.png" class="img-fluid" alt="logo">
+                    </div>
+                    <div class="invoice-body">
+                        <div class="top-sec">
+                            <div class="row">
+                                <div class="col-xxl-8 col-md-7">
+                                    <div class="address-detail">
+                                        <div class="mt-2">
+                                            <h4 class="mb-2">
+                                                2664 Tail Ends Road,
+                                            </h4>
+                                            <h4 class="mb-2"> ORADELL, New Jersey</h4>
+                                            <h4 class="mb-0">NJ, 07649</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4 col-md-5">
+                                    <ul class="date-detail">
+                                        <li>
+                                            <span>Tarih : </span>
+                                            <h4> @DateTime.Now.ToShortDateString()</h4>
+                                        </li>
+                                        <li>
+                                            <span>Kiralama No : </span>
+                                            <h4>@Model.Id</h4>
+                                        </li>
+                                        <li>
+                                            <span>E-Posta</span>
+                                            <h4>musteri@mail.com</h4>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="title-sec">
+                            <h2 class="title">Alışveriş Bilgilendirmesi</h2>
+                           
+                        </div>
+                        <div class="table-sec">
+                            <div class="table-responsive-md">
+                                <table class="table table-borderless table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Gün Sayısı</th>
+                                            <th scope="col">total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Alış Tarihi ve Saati</td>
+                                            <td>@Model.KiralamaBaslangicTarihi.ToShortDateString()</td>
+                                            <td>@Model.KiralamaBaslangicSaati : 00</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Dönüş Tarihi ve Saati</td>
+                                            <td>@Model.KiralamaBitisTarihi.ToShortDateString()</td>
+                                            <td>@Model.KiralamaBitisSaati : 00</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Kiralanan Araç</td>
+                                            <td>@Model.Arac.AracMarka - @Model.Arac.AracModel</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">4</th>
+                                            <td>Kiralanan Gün Sayısı</td>
+                                            <td>@Model.KiralananGunSayisi</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">4</th>
+                                            <td>Alış Ofisi</td>
+                                            <td>@ViewBag.SubeAdresi</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-end">
+                                <div class="table-footer">
+                                    <span class="me-5 font-bold">Toplam Ücret</span>
+                                    <span class="font-bold">₺@Model.KiralamaBedeli</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice-footer">
+                        <img src="../assets/images/invoice/shape.png" class="img-fluid design-shape" alt="">
+                        <ul>
+                            <li>
+                                <i class="fa fa-map" aria-hidden="true"></i>
+                                <div>
+                                    <h4>multikart demo store</h4>
+                                    <h4>USA, 362351</h4>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <div>
+                                    <h4>+1-202-555-0144</h4>
+                                    <h4>+1-202-555-0117</h4>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <div>
+                                    <h4>support@multikart.com</h4>
+                                    <h4>demo@multikart.com</h4>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

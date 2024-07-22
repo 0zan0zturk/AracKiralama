@@ -1,0 +1,114 @@
+﻿@model AracKiralama.Models.Arac
+
+@{
+    ViewData["Title"] = "Araç Düzenle";
+}
+
+<h1>Düzenle</h1>
+
+<h4>Arac</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="Edit" asp-controller="Arac" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-row row">
+                <div asp-validation-summary="None" class="text-danger"></div>
+
+                <div class="col-md-6">
+                    <label asp-for="AracMarka" class="control-label"></label>
+                    <input asp-for="AracMarka" class="form-control" />
+                    <span asp-validation-for="AracMarka" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AracModel" class="control-label"></label>
+                    <input asp-for="AracModel" class="form-control" />
+                    <span asp-validation-for="AracModel" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AracYil" class="control-label"></label>
+                    <input asp-for="AracYil" class="form-control" />
+                    <span asp-validation-for="AracYil" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="MotorHacmi" class="control-label"></label>
+                    <input asp-for="MotorHacmi" class="form-control" />
+                    <span asp-validation-for="MotorHacmi" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AracYakit" class="control-label"></label>
+                    @* <select asp-for="AracYakit" class="form-select">
+                        <option value="0">Seçiniz</option>
+                        <option value="Benzin">Benzin</option>
+                        <option value="Diesel">Diesel</option>
+                    </select> *@
+                    @Html.DropDownList("AracYakit", (SelectList)ViewBag.yakitlar, "Seçiniz", new { @class = "form-select" })
+                    <span asp-validation-for="AracYakit" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AracSanziman" class="control-label"></label>
+                    @* <select asp-for="AracSanziman" class="form-select">
+                        <option value="0">Seçiniz</option>
+                        <option value="Manuel">Manuel</option>
+                        <option value="Otomatik">Otomatik</option>
+                    </select> *@
+                    @Html.DropDownList("AracSanziman", (SelectList)ViewBag.sanzimanlar, "Seçiniz", new { @class = "form-select" })
+                    <span asp-validation-for="AracSanziman" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="SubeId" class="control-label"></label>
+                    <input asp-for="SubeId" class="form-control" />
+                    <span asp-validation-for="SubeId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="GunlukFiyat" class="control-label"></label>
+                    <input asp-for="GunlukFiyat" class="form-control" />
+                    <span asp-validation-for="GunlukFiyat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Photo" class="control-label"></label>
+                    <input type="file" class="form-control" asp-for="Photo">
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+                <img src="~/aracImg/@Model.AracFotograf" style="width:100px"/>
+                <div class="col-md-6">
+                    <label asp-for="AracPlaka" class="control-label"></label>
+                    <input asp-for="AracPlaka" class="form-control" readonly />
+                    <span asp-validation-for="AracPlaka" class="text-danger"></span>
+                </div> 
+                <div class="form-check form-switch col-md-2">
+                    <label class="form-check-label mt-3" for="AracMusait">Araç Müsaitlik Durumu</label>
+                </div>
+                <div class="form-check form-switch col-md-3">
+                    <input class="form-check-input mt-3" asp-for="AracMusait" id="aracMusaitCheckbox">
+                    <span id="musaitMesaj" style="display: none; margin-left: 15px; margin-top: 15px;">Araç müsait olarak işaretlendi</span>
+                </div>
+                <div class="col-md-12 mt-3 text-center">
+                    <input type="hidden" asp-for="AracFotograf" value="resim_yok" />
+                    <input type="submit" value="Aracı Kaydet" class="btn btn-solid hover-solid btn-animation me-3">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const checkbox = document.getElementById('aracMusaitCheckbox');
+        const mesaj = document.getElementById('musaitMesaj');
+
+        checkbox.addEventListener('change', (event) => {
+            if (checkbox.checked) {
+                mesaj.style.display = 'inline';
+            } else {
+                mesaj.style.display = 'none';
+            }
+        });
+    });
+</script>

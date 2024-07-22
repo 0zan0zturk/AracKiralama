@@ -1,0 +1,74 @@
+﻿@model AracKiralama.Models.Musteri
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Musteri</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MusteriTc" class="control-label"></label>
+                <input asp-for="MusteriTc" class="form-control" />
+                <span asp-validation-for="MusteriTc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MusteriAd" class="control-label"></label>
+                <input asp-for="MusteriAd" class="form-control" />
+                <span asp-validation-for="MusteriAd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MusteriSoyad" class="control-label"></label>
+                <input asp-for="MusteriSoyad" class="form-control" />
+                <span asp-validation-for="MusteriSoyad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefon" class="control-label"></label>
+                <input asp-for="Telefon" class="form-control" />
+                <span asp-validation-for="Telefon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EPosta" class="control-label"></label>
+                <input asp-for="EPosta" class="form-control" />
+                <span asp-validation-for="EPosta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MusteriDogTar" class="control-label"></label>
+                <input asp-for="MusteriDogTar" class="form-control" />
+                <span asp-validation-for="MusteriDogTar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MusteriAdres" class="control-label"></label>
+                <input asp-for="MusteriAdres" class="form-control" />
+                <span asp-validation-for="MusteriAdres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AracId" class="control-label"></label>
+                <input asp-for="AracId" class="form-control" />
+                <span asp-validation-for="AracId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubeId" class="control-label"></label>
+                <input asp-for="SubeId" class="form-control" />
+                <span asp-validation-for="SubeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

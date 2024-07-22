@@ -1,0 +1,361 @@
+﻿@model AracKiralama.Models.Musteri
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    .strength {
+        width: 100%;
+        height: 10px;
+        background-color: lightgray;
+    }
+
+    .strength-meter {
+        height: 100%;
+        transition: width 0.3s;
+    }
+
+    .match-message {
+        color: red;
+    }
+
+        .match-message.match {
+            color: green;
+        }
+
+    .requirements {
+        list-style: none;
+        padding: 0;
+    }
+
+        .requirements li {
+            margin-bottom: 5px;
+        }
+
+            .requirements li.valid {
+                color: green;
+            }
+
+            .requirements li::before {
+                content: "✗";
+                color: red;
+                margin-right: 10px;
+            }
+
+            .requirements li.valid::before {
+                content: "✔";
+            }
+</style>
+@ViewBag.kayitDurum
+<section class="login-page section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Hesap Oluşturma</h3>
+                <div class="theme-card">
+                    <form class="theme-form" method="post" asp-controller="Musteri" asp-action="HesapOlustur">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label asp-for="MusteriTc" class="control-label">TC Kimlik Numarası:</label>
+                                <input asp-for="MusteriTc" class="form-control" />
+                                <span asp-validation-for="MusteriTc" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="MusteriAd" class="control-label">İsim:</label>
+                                <input asp-for="MusteriAd" class="form-control" />
+                                <span asp-validation-for="MusteriAd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label asp-for="MusteriSoyad" class="control-label">Soyisim:</label>
+                                <input asp-for="MusteriSoyad" class="form-control" />
+                                <span asp-validation-for="MusteriSoyad" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Telefon" class="control-label">Telefon No:</label>
+                                <input asp-for="Telefon" class="form-control"  required/>
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label asp-for="EPosta" class="control-label">E-Posta:</label>
+                                <input asp-for="EPosta" class="form-control" />
+                                <span asp-validation-for="EPosta" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="MusteriDogTar" class="control-label">Doğum Tarihi:</label>
+                                <input asp-for="MusteriDogTar" class="form-control" type="date" id="MusteriDogTar" />
+                                <span asp-validation-for="MusteriDogTar" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            <div class="col-md-6">
+                                <label asp-for="MusteriSifre" class="control-label">Şifre:</label>
+                                <input asp-for="MusteriSifre" type="password" class="form-control" id="password" />
+                                <span asp-validation-for="MusteriSifre" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ConfirmPassword">Şifre Tekrar:</label>
+                                <input type="password" class="form-control" id="confirm-password" name="sifreTekrar" placeholder="Şifre Tekrar" />
+                                <span class="text-danger" id="match-message"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="strength">
+                                    <div id="strength-meter" class="strength-meter"></div>
+                                </div>
+                                <p id="strength-text"></p>
+                                <ul class="requirements">
+                                    <li id="length-req">En az 8 karakter</li>
+                                    <br />
+                                    <li id="lowercase-req">En az bir küçük harf</li>
+                                    <br />
+                                    <li id="uppercase-req">En az bir büyük harf</li>
+                                    <br />
+                                    <li id="number-req">En az bir rakam</li>
+                                    <br />
+                                    <li id="special-req">En az bir özel karakter</li>
+                                    <br />
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label asp-for="MusteriAdres" class="control-label">Adres:</label>
+                                <textarea class="form-control mb-0" placeholder="Adres" asp-for="MusteriAdres"
+                                          id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <span asp-validation-for="MusteriAdres" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <button class="btn btn-solid">Kayıt Ol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Mesaj</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessageContent"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Devam etmek için kutucuğun dışına tıklayın</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById("MusteriDogTar").max = new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split("T")[0];
+
+        const newPasswordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const strengthMeter = document.getElementById('strength-meter');
+        const strengthText = document.getElementById('strength-text');
+        const matchMessage = document.getElementById('match-message');
+
+        const lengthReq = document.getElementById('length-req');
+        const lowercaseReq = document.getElementById('lowercase-req');
+        const uppercaseReq = document.getElementById('uppercase-req');
+        const numberReq = document.getElementById('number-req');
+        const specialReq = document.getElementById('special-req');
+
+        newPasswordInput.addEventListener('input', () => {
+            updateStrengthMeter();
+            checkPasswordRequirements();
+            checkPasswordsMatch();
+        });
+
+        confirmPasswordInput.addEventListener('input', checkPasswordsMatch);
+
+        function updateStrengthMeter() {
+            const weaknesses = calculatePasswordStrength(newPasswordInput.value);
+            let strength = 100;
+            strengthMeter.style.width = `${strength}%`;
+
+            weaknesses.forEach(weakness => {
+                if (weakness == null) return;
+                strength -= weakness.deduction;
+            });
+
+            strengthMeter.style.width = `${strength}%`;
+            updateStrengthText(strength);
+        }
+
+        function calculatePasswordStrength(password) {
+            const weaknesses = [];
+            weaknesses.push(lengthWeakness(password));
+            weaknesses.push(lowercaseWeakness(password));
+            weaknesses.push(uppercaseWeakness(password));
+            weaknesses.push(numberWeakness(password));
+            weaknesses.push(specialCharsWeakness(password));
+            return weaknesses;
+        }
+
+        function updateStrengthText(strength) {
+            if (strength > 80) {
+                strengthText.textContent = 'Güçlü';
+                strengthMeter.style.backgroundColor = 'green';
+            } else if (strength > 50) {
+                strengthText.textContent = 'Orta';
+                strengthMeter.style.backgroundColor = 'orange';
+            } else {
+                strengthText.textContent = 'Zayıf';
+                strengthMeter.style.backgroundColor = 'red';
+            }
+        }
+
+        function lengthWeakness(password) {
+            const length = password.length;
+            if (length < 8) {
+                return {
+                    message: 'Şifre yeterince uzun değil',
+                    deduction: 40
+                };
+            }
+        }
+
+        function lowercaseWeakness(password) {
+            return characterTypeWeakness(password, /[a-z]/g, 'Küçük harf eksik', 20);
+        }
+
+        function uppercaseWeakness(password) {
+            return characterTypeWeakness(password, /[A-Z]/g, 'Büyük harf eksik', 20);
+        }
+
+        function numberWeakness(password) {
+            return characterTypeWeakness(password, /[0-9]/g, 'Rakam eksik', 20);
+        }
+
+        function specialCharsWeakness(password) {
+            return characterTypeWeakness(password, /[^0-9a-zA-Z\s]/g, 'Özel karakter eksik', 20);
+        }
+
+        function characterTypeWeakness(password, regex, message, deduction) {
+            if (!regex.test(password)) {
+                return {
+                    message: message,
+                    deduction: deduction
+                };
+            }
+        }
+
+        function checkPasswordsMatch() {
+            if (newPasswordInput.value === confirmPasswordInput.value) {
+                matchMessage.textContent = 'Şifreler eşleşiyor';
+                matchMessage.classList.add('match');
+                matchMessage.classList.remove('mismatch');
+            } else {
+                matchMessage.textContent = 'Şifreler eşleşmiyor';
+                matchMessage.classList.add('mismatch');
+                matchMessage.classList.remove('match');
+            }
+        }
+
+        function checkPasswordRequirements() {
+            const password = newPasswordInput.value;
+            updateRequirementStatus(lengthReq, password.length >= 8);
+            updateRequirementStatus(lowercaseReq, /[a-z]/.test(password));
+            updateRequirementStatus(uppercaseReq, /[A-Z]/.test(password));
+            updateRequirementStatus(numberReq, /[0-9]/.test(password));
+            updateRequirementStatus(specialReq, /[^0-9a-zA-Z\s]/.test(password));
+        }
+
+        function updateRequirementStatus(element, isValid) {
+            if (isValid) {
+                element.classList.add('valid');
+            } else {
+                element.classList.remove('valid');
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var kayitDurum = '@Html.Raw(ViewBag.kayitDurum)';
+
+            if (kayitDurum) {
+                document.getElementById("modalMessageContent").innerText = kayitDurum;
+                $('#messageModal').modal('show');
+            }
+        });
+    </script>
+}
+@* @model AracKiralama.Models.Musteri
+
+@{
+    ViewData["Title"] = "Create";
+}
+@ViewBag.kayitDurum
+<section class="login-page section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Hesap Oluşturma</h3>
+                <div class="theme-card">
+                    <form class="theme-form" method="post" asp-controller="Musteri" asp-action="HesapOlustur">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="MusteriTc" class="control-label">TC Kimlik Numarası:</label>
+                            <input asp-for="MusteriTc" class="form-control" />
+                            <span asp-validation-for="MusteriTc" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MusteriAd" class="control-label">İsim:</label>
+                            <input asp-for="MusteriAd" class="form-control" />
+                            <span asp-validation-for="MusteriAd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MusteriSoyad" class="control-label">Soyisim:</label>
+                            <input asp-for="MusteriSoyad" class="form-control" />
+                            <span asp-validation-for="MusteriSoyad" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Telefon" class="control-label">Telefon No:</label>
+                            <input asp-for="Telefon" class="form-control" />
+                            <span asp-validation-for="Telefon" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EPosta" class="control-label">E-Posta:</label>
+                            <input asp-for="EPosta" class="form-control" />
+                            <span asp-validation-for="EPosta" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MusteriSifre" class="control-label">Şifre</label>
+                            <input asp-for="MusteriSifre" type="password" class="form-control" />
+                            <span asp-validation-for="MusteriSifre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MusteriDogTar" class="control-label">Doğum Tarihi:</label>
+                            <input asp-for="MusteriDogTar" class="form-control"/>
+                            <span asp-validation-for="MusteriDogTar" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MusteriAdres" class="control-label">Adres:</label>
+                            <textarea class="form-control mb-0" placeholder="Adres" asp-for="MusteriAdres"
+                                      id="exampleFormControlTextarea1" rows="6"></textarea>
+                            <span asp-validation-for="MusteriAdres" class="text-danger"></span>
+                        </div>
+
+                        <button class="btn btn-solid">Kayıt Ol</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section> *@

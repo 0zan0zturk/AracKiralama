@@ -1,0 +1,57 @@
+﻿@model AracKiralama.Models.Musteri
+
+@{
+    ViewData["Title"] = "Sil Onayı";
+}
+
+
+<h3>Bizi bıraktığınız için üzgünüz... <img src="~/icons/sad_face.png" height="50px" /> <br />Lütfen hesabınızı silme sebebinizi belirtiniz.<br /> Teşekkür ederiz.</h3>
+<div class="container">
+    <section class="section-b-space border-section border-top-0 category-width">
+        <div class="row">
+            <form method="post" asp-action="HesapSil2" asp-controller="Musteri">
+                <div class="col-md-6">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                                <label><input type="radio" name="reason" value="1"/>Hizmetlerden memnun değilim.</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="category-details">
+                                <label><input type="radio" name="reason" value="2" />Daha iyi bir alternatif buldum.</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="category-details">
+                                <label><input type="radio" name="reason" value="3" />Hesap güvenliği ile ilgili endişelerim var.</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="category-details">
+                                <label><input type="radio" name="reason" value="4" />Fiyatlar çok yüksek.</label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="category-details">
+                                <label><input type="radio" name="reason" value="5" />Araçlar temiz ya da yeni değil.</label>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="">
+                            <div class="category-image"><img src="~/icons/logic.png" alt=""></div>
+                        <div class="">
+                                <h5>Diğer sebepler</h5>
+                            <textarea class="form-control" placeholder="Diğer sebepleri lütfen buraya yazınız."
+                                      id="Mesaj" name="digerSebep" rows="6"></textarea>
+                                      <input type="hidden" value="@Model.Id" name="aydi"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <input type="submit" class="btn btn-solid btn-sm btn-xs me-3" value="Hesabımı Sil">
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
